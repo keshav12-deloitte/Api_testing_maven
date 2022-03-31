@@ -14,6 +14,7 @@ import static io.restassured.RestAssured.with;
 
 import io.restassured.specification.ResponseSpecification;
 import org.json.JSONArray;
+import org.json.JSONObject;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeTest;
@@ -41,13 +42,12 @@ public class request {
     public void setup()
     {
         RequestSpecBuilder requestSpecBuilder =new RequestSpecBuilder();
-        requestSpecBuilder.setBaseUri("https://jsonplaceholder.typicode.com")
-                .addHeader("Content-Type","application/json");
+        requestSpecBuilder.setBaseUri("https://jsonplaceholder.typicode.com");
         requestSpecification=RestAssured.with().spec(requestSpecBuilder.build());
 
 
         RequestSpecBuilder requestSpecBuilder1=new RequestSpecBuilder();
-        requestSpecBuilder1.setBaseUri("https://reqres.in/api").addHeader("Content-Type","application/json").setBody(jsonData);
+        requestSpecBuilder1.setBaseUri("https://reqres.in/api");
         requestSpecification1=RestAssured.with().spec(requestSpecBuilder1.build());
 
         ResponseSpecBuilder responseSpecBuilder=new ResponseSpecBuilder().expectStatusCode(200);
@@ -56,7 +56,7 @@ public class request {
     @Test(priority = 1)
             public void get_call()
     {
-
+requestSpecification.header("Content-Type","application/json");
         Response response =requestSpecification.get("/posts");
         requestSpecification.then().body(matchesJsonSchemaInClasspath("schema1.json"));
         JSONArray array=new JSONArray(response.asString());
@@ -76,14 +76,12 @@ public class request {
     @Test(priority = 2)
     public void put_call()
     {
-
+      requestSpecification1.body(jsonData);
+      requestSpecification1.header("Content-Type","application/json");
        Response response1=requestSpecification1.put("/users");
-       assertThat(response1.body("name"),equalTo("Arun"));
-
-
-
-
-
+        JSONObject object=new JSONObject(response1.asString());
+        System.out.println(object);
+        assertThat(object.get("name"),equalTo("Arun"));
 
     }
 
