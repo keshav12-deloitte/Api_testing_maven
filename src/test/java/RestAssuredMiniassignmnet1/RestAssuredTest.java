@@ -16,7 +16,7 @@ import static org.hamcrest.Matchers.*;
 import static io.restassured.RestAssured.*;
 import static org.hamcrest.Matchers.*;
 import  org.hamcrest.Matchers.*;
-
+import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 import java.io.File;
 
 
@@ -29,37 +29,37 @@ public class RestAssuredTest {
     @Test(priority = 1)
     public void get_Call() {
         Response response =
-                given().header("Content-Type", "application/json").
-                        when().get("https://jsonplaceholder.typicode.com/posts")
-                        .then().statusCode(200).body("userId[39]", equalTo(4)).body("id[39]", equalTo(40)).
-                        extract().response();
-        /*JSONArray array=new JSONArray(response.asString());
+                given()
+                        .baseUri("https://jsonplaceholder.typicode.com")
+                        .header("Content-Type", "application/json")
+                        .when().get("/posts")
+                        .then()
+                        .body(matchesJsonSchemaInClasspath("schema1.json"))
+                         .extract().response();
+        JSONArray array=new JSONArray(response.asString());
         boolean flag=false;
-        for (int i=0;i<array.length();i++)
-        {
-            if((Integer.parseInt(array.getJSONObject(i).get("id").toString())==4))
-            {
-                if(Integer.parseInt(array.getJSONObject(i).get("userId").toString())==40)
-                {
-
-                     flag=true;
+        for (int i=0; i<array.length();i++){
+            if (Integer.parseInt(array.getJSONObject(i).get("id").toString())==40){
+                if (Integer.parseInt(array.getJSONObject(i).get("userId").toString())==4){
+                    flag = true;
                 }
             }
         }
-        System.out.println("hi");
+
         Assert.assertTrue(flag);
+        System.out.println(flag);
     }
-         */
-    }
+
+
     @Test(priority = 2)
     public void put_call()
     {
         File jsonData=new File("C:\\Users\\vuchander\\Api_testing_maven\\src\\test\\java\\RestAssuredMiniassignmnet1\\adddata.json");
-        given()
+        given().baseUri("https://reqres.in/api")
                 .header("Content-Type", "application/json")
                 .body(jsonData)
                 .when()
-                .put("https://reqres.in/api/users")
+                .put("/users")
                 .then()
                 .statusCode(200)
                 .contentType("application/json")
