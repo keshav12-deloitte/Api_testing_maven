@@ -6,26 +6,34 @@ import org.json.JSONArray;
 import org.testng.Assert;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
+
 import static org.hamcrest.MatcherAssert.*;
+
 import io.restassured.RestAssured;
 import org.testng.annotations.Test;
+
 import static io.restassured.RestAssured.*;
 import static io.restassured.matcher.RestAssuredMatchers.*;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 import static io.restassured.RestAssured.*;
 import static org.hamcrest.Matchers.*;
-import  org.hamcrest.Matchers.*;
+
+import org.hamcrest.Matchers.*;
+
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
+
 import java.io.File;
 
 
 public class RestAssuredTest {
+    String put_url = "https://reqres.in/api";
+
     @BeforeTest
-    public void handshake()
-    {
+    public void handshake() {
         RestAssured.useRelaxedHTTPSValidation();
     }
+
     @Test(priority = 1)
     public void get_Call() {
         Response response =
@@ -35,12 +43,12 @@ public class RestAssuredTest {
                         .when().get("/posts")
                         .then()
                         .body(matchesJsonSchemaInClasspath("schema1.json"))
-                         .extract().response();
-        JSONArray array=new JSONArray(response.asString());
-        boolean flag=false;
-        for (int i=0; i<array.length();i++){
-            if (Integer.parseInt(array.getJSONObject(i).get("id").toString())==40){
-                if (Integer.parseInt(array.getJSONObject(i).get("userId").toString())==4){
+                        .extract().response();
+        JSONArray array = new JSONArray(response.asString());
+        boolean flag = false;
+        for (int i = 0; i < array.length(); i++) {
+            if (Integer.parseInt(array.getJSONObject(i).get("id").toString()) == 40) {
+                if (Integer.parseInt(array.getJSONObject(i).get("userId").toString()) == 4) {
                     flag = true;
                 }
             }
@@ -52,10 +60,10 @@ public class RestAssuredTest {
 
 
     @Test(priority = 2)
-    public void put_call()
-    {
-        File jsonData=new File("C:\\Users\\vuchander\\Api_testing_maven\\src\\test\\java\\RestAssuredMiniassignmnet1\\adddata.json");
-        given().baseUri("https://reqres.in/api")
+    public void put_call() {
+        File jsonData = new File("C:\\Users\\vuchander\\Api_testing_maven\\src\\test\\java\\RestAssuredMiniassignmnet1\\adddata.json");
+        given()
+                .baseUri(put_url)
                 .header("Content-Type", "application/json")
                 .body(jsonData)
                 .when()
@@ -63,8 +71,42 @@ public class RestAssuredTest {
                 .then()
                 .statusCode(200)
                 .contentType("application/json")
-                .body("name",equalTo("Arun"))
-                .body("job",equalTo("Manager"));
+                .body("name", equalTo("Arun"))
+                .body("job", equalTo("Manager"));
+
 
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*File jsonData=new File("C:\\Users\\vuchander\\Api_testing_maven\\src\\test\\java\\RestAssuredMiniassignmnet1\\adddata.json");
+    given().baseUri("https://reqres.in/api")
+        .header("Content-Type", "application/json")
+        .body(jsonData)
+        .when()
+        .put("/users")
+        .then()
+        .statusCode(200)
+        .contentType("application/json")
+        .body("name",equalTo("Arun"))
+        .body("job",equalTo("Manager"));
+
+
+     */
