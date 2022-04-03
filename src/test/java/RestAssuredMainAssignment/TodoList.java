@@ -5,6 +5,8 @@ import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.reporter.ExtentSparkReporter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.restassured.RestAssured;
+import io.restassured.filter.log.ResponseLoggingFilter;
+import org.apache.logging.log4j.*;
 import org.testng.annotations.*;
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
@@ -12,7 +14,6 @@ import io.restassured.builder.ResponseSpecBuilder;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
-
 import static io.restassured.RestAssured.given;
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 import static org.hamcrest.Matchers.*;
@@ -25,16 +26,30 @@ import org.testng.annotations.BeforeTest;
 import org.testng.asserts.Assertion;
 import utils.Excelutils;
 import java.io.File;
-
+import java.io.FileNotFoundException;
+import java.io.PrintStream;
 import static org.hamcrest.MatcherAssert.assertThat;
+
+
 
 public class TodoList {
 
+    private static Logger log=LogManager.getLogger(TodoList.class.getName());
+    private  static PrintStream log1;
+
+     {
+        try {
+            log1 = new PrintStream(new File("C:\\Users\\vuchander\\Api_testing_maven\\logs\\logdemo.log"));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
     String bearerToken;
     String baseUri = "https://api-nodejs-todolist.herokuapp.com";
-    //Excelutils excel=new Excelutils(excelPath,sheetName);
-    static ExtentReports extent = new ExtentReports();
-    static ExtentSparkReporter spark = new ExtentSparkReporter("Todolist.html");
+
+    static ExtentReports extent = new ExtentReports();//initializing the Extent Report
+    static ExtentSparkReporter spark = new ExtentSparkReporter("Todolist.html");//initializing the spark report in Extent Report
 
     @BeforeTest
     public void handshake() {
@@ -43,21 +58,26 @@ public class TodoList {
 
     @Test(priority = 1)
     public void userRegister() {
+
         extent.attachReporter(spark);
+        ExtentTest test = extent.createTest("verifying Customers are Added successfully");//Creating a test in Extent Report
+
         String excelPath = "C:\\Users\\vuchander\\Api_testing_maven\\src\\main\\DataFromExcel\\userData.xlsx";
         String sheetName = "userData";
-        ExtentTest test = extent.createTest("verifying Customers are Added successfully");
+        Excelutils excel = new Excelutils(excelPath, sheetName);//passing excel path and sheetname  as parameters to excelUtlis class
 
-        Excelutils excel = new Excelutils(excelPath, sheetName);
+
         JSONObject requestParams = new JSONObject();
-        requestParams.put("name", excel.getCellData(3, 0).toString());
-        requestParams.put("email", excel.getCellData(3, 1).toString());
-        requestParams.put("password", excel.getCellData(3, 2).toString());
-        requestParams.put("age", excel.getCellData(3, 3));
+        requestParams.put("name", excel.getCellData(4, 0).toString());
+        requestParams.put("email", excel.getCellData(4, 1).toString());
+        requestParams.put("password", excel.getCellData(4, 2).toString());
+        requestParams.put("age", excel.getCellData(4, 3));
+
         Response response =
                 given()
                         .header("Content-type", "application/json")
                         .baseUri(baseUri)
+                        .filter(ResponseLoggingFilter.logResponseTo(log1))
                         .body(requestParams.toString())
                         .when().post("/user/register")
                         .then()
@@ -65,8 +85,8 @@ public class TodoList {
                         .extract().response();
 
         JSONObject registerResponse = new JSONObject(response.asString());
-        //System.out.println(registerResponse);
-        JSONObject userDetails=new JSONObject(registerResponse.get("user").toString());//for only user part of validation
+        JSONObject userDetails=new JSONObject(registerResponse.get("user").toString());//extracting user details object from main object
+        //Validating user details from the response we get ,with the expected one
         assertThat(userDetails.get("name"),equalTo("ramesh"));
         assertThat(userDetails.get("email"),equalTo("ramesh@gmail.com"));
         assertThat(userDetails.get("age"),equalTo(45));
@@ -77,8 +97,8 @@ public class TodoList {
     @Test(priority = 2)
     public void userlogin() {
 
-        ExtentTest test = extent.createTest("verifying Users are login successfully");
-        test.pass("login is done Successfully");
+        ExtentTest test = extent.createTest("verifying Users are login successfully");//Creating a test in Extent Report
+
         String excelPath = "C:\\Users\\vuchander\\Api_testing_maven\\src\\main\\DataFromExcel\\userlogindata.xlsx";
         String sheetName = "Sheet1";
         Excelutils excel = new Excelutils(excelPath, sheetName);
@@ -90,36 +110,36 @@ public class TodoList {
                         .header("Content-type", "application/json")
                         .baseUri(baseUri)
                         .body(requestParams.toString())
+                        .filter(ResponseLoggingFilter.logResponseTo(log1))
                         .when().post("/user/login")
                         .then()
                         .log().all()
                         .extract().response();
         JSONObject userlogin = new JSONObject(response.asString());//for the entire json object of response
-        //System.out.println(userlogin);
-        //int status=response.getStatusCode();
-        //assertThat(status,equalTo(200));
-        //System.out.println("hi");
-        bearerToken=userlogin.get("token").toString();
+        bearerToken=userlogin.get("token").toString();//Storing the bearer token for future tests
         //System.out.println(bearerToken);
+
         JSONObject userDetails=new JSONObject(userlogin.get("user").toString());//for only user part of validation
         assertThat(userDetails.get("name"),equalTo("V Kesava Chander"));
         assertThat(userDetails.get("email"),equalTo("keshavchander100@gmail.com"));
         assertThat(userDetails.get("age"),equalTo(22));
+        test.pass("login is done Successfully");//logging in the Extent report
         System.out.println("All credential are matched");
+
 
     }
 
     @Test(priority = 3)
     public void addtask() {
 
-        ExtentTest test = extent.createTest("verifying Tasks are Added successfully");
+        ExtentTest test = extent.createTest("verifying Tasks are Added successfully");//Creating a test in Extent Report
         String excelPath = "C:\\Users\\vuchander\\Api_testing_maven\\src\\main\\DataFromExcel\\TaskData.xlsx";
         String sheetName = "Sheet1";
         Excelutils excel = new Excelutils(excelPath, sheetName);
         JSONObject requestParams = new JSONObject();
         int noOfRows=excel.getRowCount();
         for(int i=1;i<noOfRows;i++){
-            requestParams.put("description", excel.getCellData(i, 0));
+            requestParams.put("description", excel.getCellData(i, 0));//iterating the loop till we add 20 tasks
         }
 
         Response response =
@@ -129,14 +149,19 @@ public class TodoList {
                         .header("Authorization",
                                 "Bearer "+bearerToken)
                         .header("Content-Type","application/json")
+                        .filter(ResponseLoggingFilter.logResponseTo(log1))
                         .body(requestParams.toString())
                         .when().post("/task")
                         .then()
+                        //.body(matchesJsonSchemaInClasspath("taskDataSchema.json"))
                         .log().all()
                         .extract().response();
 
-        //JSONObject taskdata=new JSONObject(response.asString());
-        //System.out.println(taskdata);
+        JSONObject taskdata=new JSONObject(response.asString());
+        JSONObject taskDatatype=new JSONObject(taskdata.get("data").toString());
+        //assertThat(taskDatatype.get("description"),equalTo(String));
+        //System.out.println("check" + taskDatatype.get("description"));
+        assert taskDatatype.get("description") instanceof String;
         test.pass("Tasks are added successfully");
 
     }
@@ -147,10 +172,11 @@ public class TodoList {
         Response response=
                 given()
                         .baseUri(baseUri)
-                        .queryParam("limit","2")
+                        .queryParam("limit","10")
                         .header("Authorization",
                                 "Bearer "+bearerToken)
                         .header("Content-Type","application/json")
+                        .filter(ResponseLoggingFilter.logResponseTo(log1))
                         .when()
                         .get("/task")
                         .then()
@@ -160,10 +186,27 @@ public class TodoList {
         //System.out.println(taskPagination);
 
     }
+    @Test(priority = 5)
+    public void deleteExistinguserAccount()
+    {
+        String bearer="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjQ5ODk2MjE2YTc0ZTAwMTc0NjA1ZTQiLCJpYXQiOjE2NDg5OTkzNjd9.4TMQKkDQc1v4naDOg_1mPL0EFz2WU2FxevsLmbKT1Mg";
+        ExtentTest test = extent.createTest("verifying Existing User Account are deactivated successfully");
+        Response response =
+                given()
+                        .baseUri(baseUri)
+                        .header("Authorization",
+                "Bearer "+bearer)
+                        .when().delete("/user/me")
+                        .then()
+                        .log().all()
+                        .extract().response();
+        test.pass("User Account Deleted Successfully");
+
+    }
 
 
     @AfterTest
     public void afterTest() {
-        extent.flush();
+        extent.flush();//storing all the logs in extent report and closing it
     }
 }

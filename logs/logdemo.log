@@ -1,0 +1,166 @@
+HTTP/1.1 400 Bad Request
+Server: Cowboy
+X-Powered-By: Express
+Access-Control-Allow-Origin: *
+Content-Type: application/json; charset=utf-8
+Content-Length: 113
+Etag: W/"71-8AMoxSetKJP5uQcHydvPhJv2Ey0"
+Date: Sun, 03 Apr 2022 15:43:44 GMT
+Via: 1.1 vegur
+Connection: Keep-Alive
+
+"E11000 duplicate key error collection: todo-list.users index: email_1 dup key: { email: \"supriya@gmail.com\" }"
+HTTP/1.1 200 OK
+Server: Cowboy
+X-Powered-By: Express
+Access-Control-Allow-Origin: *
+Content-Type: application/json; charset=utf-8
+Content-Length: 362
+Etag: W/"16a-9sehuKftSWPNUa4UwsRdgTO54vQ"
+Date: Sun, 03 Apr 2022 15:43:46 GMT
+Via: 1.1 vegur
+Connection: Keep-Alive
+
+{
+    "user": {
+        "age": 22,
+        "_id": "62482d8e3cd35a0017faea45",
+        "name": "V Kesava Chander",
+        "email": "keshavchander100@gmail.com",
+        "createdAt": "2022-04-02T11:03:42.385Z",
+        "updatedAt": "2022-04-03T15:43:46.108Z",
+        "__v": 67
+    },
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjQ4MmQ4ZTNjZDM1YTAwMTdmYWVhNDUiLCJpYXQiOjE2NDkwMDA2MjZ9.XUVWu9wLw3g3cskxOix8HLvGSc8VwejCw1qk1bpyNuk"
+}
+HTTP/1.1 201 Created
+Server: Cowboy
+X-Powered-By: Express
+Access-Control-Allow-Origin: *
+Content-Type: application/json; charset=utf-8
+Content-Length: 219
+Etag: W/"db-Yb7WiTMVe+c5QtrVrZz7hvaRfgw"
+Date: Sun, 03 Apr 2022 15:43:47 GMT
+Via: 1.1 vegur
+Cache-Control: proxy-revalidate
+Connection: Keep-Alive
+
+{
+    "success": true,
+    "data": {
+        "completed": false,
+        "_id": "6249c0b316a74e0017460f52",
+        "description": "12345",
+        "owner": "62482d8e3cd35a0017faea45",
+        "createdAt": "2022-04-03T15:43:47.518Z",
+        "updatedAt": "2022-04-03T15:43:47.518Z",
+        "__v": 0
+    }
+}
+HTTP/1.1 200 OK
+Server: Cowboy
+X-Powered-By: Express
+Access-Control-Allow-Origin: *
+Content-Type: application/json; charset=utf-8
+Content-Length: 2114
+Etag: W/"842-tT8gfQUt5XEGH0H7Ymsi1R0qhbk"
+Date: Sun, 03 Apr 2022 15:43:49 GMT
+Via: 1.1 vegur
+Cache-Control: proxy-revalidate
+Connection: Keep-Alive
+
+{
+    "count": 10,
+    "data": [
+        {
+            "completed": false,
+            "_id": "624861633cd35a0017faebe6",
+            "description": "Reading book",
+            "owner": "62482d8e3cd35a0017faea45",
+            "createdAt": "2022-04-02T14:44:51.794Z",
+            "updatedAt": "2022-04-02T14:44:51.794Z",
+            "__v": 0
+        },
+        {
+            "completed": false,
+            "_id": "624865ac3cd35a0017faec25",
+            "description": "complete Assignment",
+            "owner": "62482d8e3cd35a0017faea45",
+            "createdAt": "2022-04-02T15:03:08.422Z",
+            "updatedAt": "2022-04-02T15:03:08.422Z",
+            "__v": 0
+        },
+        {
+            "completed": false,
+            "_id": "62486e2d3cd35a0017faec62",
+            "description": "complete Assignment",
+            "owner": "62482d8e3cd35a0017faea45",
+            "createdAt": "2022-04-02T15:39:25.045Z",
+            "updatedAt": "2022-04-02T15:39:25.045Z",
+            "__v": 0
+        },
+        {
+            "completed": false,
+            "_id": "624875b33cd35a0017faeccb",
+            "description": "complete Assignment",
+            "owner": "62482d8e3cd35a0017faea45",
+            "createdAt": "2022-04-02T16:11:31.737Z",
+            "updatedAt": "2022-04-02T16:11:31.737Z",
+            "__v": 0
+        },
+        {
+            "completed": false,
+            "_id": "6248764c3cd35a0017faecdb",
+            "description": "complete Assignment",
+            "owner": "62482d8e3cd35a0017faea45",
+            "createdAt": "2022-04-02T16:14:04.895Z",
+            "updatedAt": "2022-04-02T16:14:04.895Z",
+            "__v": 0
+        },
+        {
+            "completed": false,
+            "_id": "624879213cd35a0017faecf6",
+            "description": "complete Assignment",
+            "owner": "62482d8e3cd35a0017faea45",
+            "createdAt": "2022-04-02T16:26:09.064Z",
+            "updatedAt": "2022-04-02T16:26:09.064Z",
+            "__v": 0
+        },
+        {
+            "completed": false,
+            "_id": "624879813cd35a0017faecf9",
+            "description": "complete Assignment",
+            "owner": "62482d8e3cd35a0017faea45",
+            "createdAt": "2022-04-02T16:27:45.256Z",
+            "updatedAt": "2022-04-02T16:27:45.256Z",
+            "__v": 0
+        },
+        {
+            "completed": false,
+            "_id": "62487a993cd35a0017faed00",
+            "description": "complete Assignment",
+            "owner": "62482d8e3cd35a0017faea45",
+            "createdAt": "2022-04-02T16:32:25.286Z",
+            "updatedAt": "2022-04-02T16:32:25.286Z",
+            "__v": 0
+        },
+        {
+            "completed": false,
+            "_id": "62488e883cd35a0017faee03",
+            "description": "complete Assignment",
+            "owner": "62482d8e3cd35a0017faea45",
+            "createdAt": "2022-04-02T17:57:28.187Z",
+            "updatedAt": "2022-04-02T17:57:28.187Z",
+            "__v": 0
+        },
+        {
+            "completed": false,
+            "_id": "624898bd3cd35a0017faee2c",
+            "description": "complete Assignment",
+            "owner": "62482d8e3cd35a0017faea45",
+            "createdAt": "2022-04-02T18:41:01.914Z",
+            "updatedAt": "2022-04-02T18:41:01.914Z",
+            "__v": 0
+        }
+    ]
+}

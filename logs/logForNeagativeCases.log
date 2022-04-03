@@ -1,0 +1,40 @@
+HTTP/1.1 400 Bad Request
+Server: Cowboy
+X-Powered-By: Express
+Access-Control-Allow-Origin: *
+Content-Type: application/json; charset=utf-8
+Content-Length: 122
+Etag: W/"7a-jrGDyMWvig5C1JgxsXXIr76YpOw"
+Date: Sun, 03 Apr 2022 15:43:44 GMT
+Via: 1.1 vegur
+Connection: Keep-Alive
+
+"E11000 duplicate key error collection: todo-list.users index: email_1 dup key: { email: \"keshavchander100@gmail.com\" }"
+HTTP/1.1 400 Bad Request
+Server: Cowboy
+X-Powered-By: Express
+Access-Control-Allow-Origin: *
+Content-Type: application/json; charset=utf-8
+Content-Length: 17
+Etag: W/"11-FSW39B1e9RJGzsBhtJda0RM/BOk"
+Date: Sun, 03 Apr 2022 15:43:46 GMT
+Via: 1.1 vegur
+Connection: Keep-Alive
+
+"Unable to login"
+HTTP/1.1 401 Unauthorized
+Server: Cowboy
+X-Powered-By: Express
+Access-Control-Allow-Origin: *
+Content-Type: application/json; charset=utf-8
+Content-Length: 32
+Etag: W/"20-l84Ae8oPqxLFOfh6GyOldXOyOfM"
+Date: Sun, 03 Apr 2022 15:43:47 GMT
+Via: 1.1 vegur
+Cache-Control: proxy-revalidate
+Connection: Keep-Alive
+Set-Cookie: BCSI-CS-f2e001f083fbc8de=1; Path=/
+
+{
+    "error": "Please authenticate."
+}

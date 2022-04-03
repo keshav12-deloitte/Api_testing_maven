@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="All Test Suite" parallel="classes" thread-count="2">
+    <test verbose="2" preserve-order="true"
+          name="C:/Users/vuchander/Api_testing_maven/src/test/java/RestAssuredMainAssignment">
+        <classes>
+            <class name="RestAssuredMainAssignment.TodoList">
+                <methods>
+                    <include name="userRegister"/>
+                    <include name="userlogin"/>
+                    <include name="addtask"/>
+                    <include name="paginationWithLimits"/>
+                    <include name="deleteExistinguserAccount"/>
+                </methods>
+            </class>
+            <class name="RestAssuredMainAssignment.TodolistNegativeCases">
+                <methods>
+                    <include name="registerWithExistingUser"/>
+                    <include name="loginWithoutRegistration"/>
+                    <include name="validatingAddtask"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+</suite>
