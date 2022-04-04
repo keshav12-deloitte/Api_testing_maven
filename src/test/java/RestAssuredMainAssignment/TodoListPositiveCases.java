@@ -3,28 +3,17 @@ package RestAssuredMainAssignment;
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.reporter.ExtentSparkReporter;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.restassured.RestAssured;
 import io.restassured.filter.log.ResponseLoggingFilter;
 import org.apache.logging.log4j.*;
 import org.testng.annotations.*;
-import io.restassured.RestAssured;
-import io.restassured.builder.RequestSpecBuilder;
-import io.restassured.builder.ResponseSpecBuilder;
-import io.restassured.http.ContentType;
 import io.restassured.response.Response;
-import io.restassured.specification.RequestSpecification;
 
 import static io.restassured.RestAssured.*;
-import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 import static org.hamcrest.Matchers.*;
 
-import io.restassured.specification.ResponseSpecification;
-import org.json.JSONArray;
 import org.json.JSONObject;
-import org.testng.Assert;
 import org.testng.annotations.BeforeTest;
-import org.testng.asserts.Assertion;
 import utils.Excelutils;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -33,9 +22,9 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 
 
-public class TodoList {
+public class TodoListPositiveCases {
 
-    private static Logger log=LogManager.getLogger(TodoList.class.getName());
+    private static Logger log=LogManager.getLogger(TodoListPositiveCases.class.getName());
     private  static PrintStream log1;
 
      {
@@ -69,10 +58,10 @@ public class TodoList {
 
 
         JSONObject requestParams = new JSONObject();
-        requestParams.put("name", excel.getCellData(4, 0).toString());
-        requestParams.put("email", excel.getCellData(4, 1).toString());
-        requestParams.put("password", excel.getCellData(4, 2).toString());
-        requestParams.put("age", excel.getCellData(4, 3));
+        requestParams.put("name", excel.getCellData(5, 0).toString());
+        requestParams.put("email", excel.getCellData(5, 1).toString());
+        requestParams.put("password", excel.getCellData(5, 2).toString());
+        requestParams.put("age", excel.getCellData(5, 3));
 
         Response response =
                 given()
@@ -88,9 +77,9 @@ public class TodoList {
         JSONObject registerResponse = new JSONObject(response.asString());
         JSONObject userDetails=new JSONObject(registerResponse.get("user").toString());//extracting user details object from main object
         //Validating user details from the response we get ,with the expected one
-        assertThat(userDetails.get("name"),equalTo("ramesh"));
-        assertThat(userDetails.get("email"),equalTo("ramesh@gmail.com"));
-        assertThat(userDetails.get("age"),equalTo(45));
+        assertThat(userDetails.get("name"),equalTo("lakshmi"));
+        assertThat(userDetails.get("email"),equalTo("lakshmi12@gmail.com"));
+        assertThat(userDetails.get("age"),equalTo(44));
         test.pass("customers  are added Successfully");
 
     }
@@ -191,7 +180,7 @@ public class TodoList {
     @Test(priority = 5)
     public void deleteExistinguserAccount()
     {
-        String bearer="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjQ5YmM4YjE2YTc0ZTAwMTc0NjBlNTUiLCJpYXQiOjE2NDkwNDk4MDR9.5CYJLHhoStbE99OGZG804L_YkgYRVQQkt3A4dc-zyVA";
+        String bearer="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjQ5YmM4YjE2YTc0ZTAwMTc0NjBlNTUiLCJpYXQiOjE2NDkwNTAzOTF9.PiUWU3vnWKNs3inH3bxcMHJdl7KbpCHwP3v_ThsWkhc";
         ExtentTest test = extent.createTest("verifying Existing User Account are deactivated successfully");
         Response response =
                 given()

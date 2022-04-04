@@ -3,21 +3,21 @@ Server: Cowboy
 X-Powered-By: Express
 Access-Control-Allow-Origin: *
 Content-Type: application/json; charset=utf-8
-Content-Length: 344
-Etag: W/"158-D/37QLw6BL4TSLm+wEmdy2d0UWs"
-Date: Mon, 04 Apr 2022 05:23:24 GMT
+Content-Length: 362
+Etag: W/"16a-Cb8gdexKUEG7m+mgTOa1UWZNT6A"
+Date: Mon, 04 Apr 2022 05:36:53 GMT
 Via: 1.1 vegur
 Connection: Keep-Alive
 
 {
     "user": {
-        "age": 18,
-        "_id": "6249bc8b16a74e0017460e55",
-        "name": "supriya",
-        "email": "supriya@gmail.com",
-        "createdAt": "2022-04-03T15:26:03.002Z",
-        "updatedAt": "2022-04-04T05:23:24.618Z",
-        "__v": 15
+        "age": 22,
+        "_id": "62482d8e3cd35a0017faea45",
+        "name": "V Kesava Chander",
+        "email": "keshavchander100@gmail.com",
+        "createdAt": "2022-04-02T11:03:42.385Z",
+        "updatedAt": "2022-04-04T05:36:53.140Z",
+        "__v": 77
     },
-    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjQ5YmM4YjE2YTc0ZTAwMTc0NjBlNTUiLCJpYXQiOjE2NDkwNDk4MDR9.5CYJLHhoStbE99OGZG804L_YkgYRVQQkt3A4dc-zyVA"
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjQ4MmQ4ZTNjZDM1YTAwMTdmYWVhNDUiLCJpYXQiOjE2NDkwNTA2MTN9.SXTlLgFX_pb_m3lOUsUoJP3HDSCjwcTIdl6zhLAZi3U"
 }
