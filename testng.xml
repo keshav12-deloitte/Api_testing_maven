@@ -11,13 +11,13 @@
                     <include name="addtask"/>
                     <include name="paginationWithLimits"/>
                     <include name="deleteExistinguserAccount"/>
+                    <include name="getAllTask"/>
                 </methods>
             </class>
             <class name="RestAssuredMainAssignment.TodolistNegativeCases">
                 <methods>
                     <include name="registerWithExistingUser"/>
                     <include name="loginWithoutRegistration"/>
-                    <include name="validatingAddtask"/>
                 </methods>
             </class>
         </classes>

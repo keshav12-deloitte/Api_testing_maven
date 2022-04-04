@@ -107,44 +107,10 @@ public class TodolistNegativeCases {
         assertThat(userDetails.get("email"),equalTo("keshavchander100@gmail.com"));
         assertThat(userDetails.get("age"),equalTo(22));
         System.out.println("All credential are matched");
-       test.fail("Users need to register before login");
+        test.fail("Users need to register before login");
 
     }
-    @Test(priority = 3)
-    public void validatingAddtask() {
 
-        ExtentTest test = extent.createTest("verifying Tasks are Added successfully");
-        String excelPath = "C:\\Users\\vuchander\\Api_testing_maven\\src\\main\\DataFromExcel\\TaskData.xlsx";
-        String sheetName = "Sheet1";
-        Excelutils excel = new Excelutils(excelPath, sheetName);
-        JSONObject requestParams = new JSONObject();
-        int noOfRows=excel.getRowCount();
-
-        requestParams.put("description", excel.getCellData(19, 0));
-
-
-        Response response =
-                given()
-                        .header("Content-type", "application/json")
-                        .baseUri(baseUri)
-                        .header("Authorization",
-                                "Bearer "+bearerToken)
-                        .header("Content-Type","application/json")
-                        .filter(ResponseLoggingFilter.logResponseTo(logForNeagativeCases))
-                        .body(requestParams.toString())
-                        .when().post("/task")
-                        .then()
-                        //.body(matchesJsonSchemaInClasspath("C:\\Users\\vuchander\\Api_testing_maven\\src\\test\\resources\\taskDataSchema.json"))
-                        .log().all()
-                        .extract().response();
-
-        JSONObject taskdata=new JSONObject(response.asString());
-        //System.out.println(taskdata);
-        JSONObject taskdatatype=new JSONObject(taskdata.get("data").toString());
-        assert taskdatatype.get("description") instanceof String;
-        test.fail("Tasks are not Added due to wrong format ");
-
-    }
     @AfterTest
     public void afterTest() {
         extent.flush();

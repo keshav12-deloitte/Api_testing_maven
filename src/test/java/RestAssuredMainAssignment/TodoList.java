@@ -14,10 +14,11 @@ import io.restassured.builder.ResponseSpecBuilder;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
-import static io.restassured.RestAssured.given;
+
+import static io.restassured.RestAssured.*;
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 import static org.hamcrest.Matchers.*;
-import static io.restassured.RestAssured.with;
+
 import io.restassured.specification.ResponseSpecification;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -138,33 +139,35 @@ public class TodoList {
         Excelutils excel = new Excelutils(excelPath, sheetName);
         JSONObject requestParams = new JSONObject();
         int noOfRows=excel.getRowCount();
+        System.out.println(noOfRows);
         for(int i=1;i<noOfRows;i++){
-            requestParams.put("description", excel.getCellData(i, 0));//iterating the loop till we add 20 tasks
+
+                   //iterating the loop till we add 20 tasks
+            requestParams.put("description", excel.getCellData(i, 0));
+            Response response =
+                    given()
+                            .header("Content-type", "application/json")
+                            .baseUri(baseUri)
+                            .header("Authorization",
+                                    "Bearer "+bearerToken)
+                            .header("Content-Type","application/json")
+                            .body(requestParams.toString())
+                            .filter(ResponseLoggingFilter.logResponseTo(log1))
+                            .when().post("/task")
+                            .then()
+                            //.body(matchesJsonSchemaInClasspath("taskDataSchema.json"))
+                            .log().all()
+                            .extract().response();
+            JSONObject taskdata=new JSONObject(response.asString());
+            JSONObject taskDatatype=new JSONObject(taskdata.get("data").toString());
+            assert taskDatatype.get("description") instanceof String;
+
         }
 
-        Response response =
-                given()
-                        .header("Content-type", "application/json")
-                        .baseUri(baseUri)
-                        .header("Authorization",
-                                "Bearer "+bearerToken)
-                        .header("Content-Type","application/json")
-                        .filter(ResponseLoggingFilter.logResponseTo(log1))
-                        .body(requestParams.toString())
-                        .when().post("/task")
-                        .then()
-                        //.body(matchesJsonSchemaInClasspath("taskDataSchema.json"))
-                        .log().all()
-                        .extract().response();
-
-        JSONObject taskdata=new JSONObject(response.asString());
-        JSONObject taskDatatype=new JSONObject(taskdata.get("data").toString());
-        //assertThat(taskDatatype.get("description"),equalTo(String));
-        //System.out.println("check" + taskDatatype.get("description"));
-        assert taskDatatype.get("description") instanceof String;
         test.pass("Tasks are added successfully");
 
     }
+
     @Test(priority = 4)
     public void paginationWithLimits()
     {
@@ -172,7 +175,7 @@ public class TodoList {
         Response response=
                 given()
                         .baseUri(baseUri)
-                        .queryParam("limit","10")
+                        .queryParam("limit","5")
                         .header("Authorization",
                                 "Bearer "+bearerToken)
                         .header("Content-Type","application/json")
@@ -182,8 +185,7 @@ public class TodoList {
                         .then()
                         .log().all()
                         .extract().response();
-        //JSONObject taskPagination=new JSONObject(response.asString());
-        //System.out.println(taskPagination);
+
 
     }
     @Test(priority = 5)
@@ -196,11 +198,28 @@ public class TodoList {
                         .baseUri(baseUri)
                         .header("Authorization",
                 "Bearer "+bearer)
+                        .filter(ResponseLoggingFilter.logResponseTo(log1))
                         .when().delete("/user/me")
                         .then()
                         .log().all()
                         .extract().response();
         test.pass("User Account Deleted Successfully");
+
+    }
+    @Test(priority = 6)
+    public void getAllTask()
+    {
+        given()
+                .baseUri(baseUri)
+                .header("Authorization",
+                        "Bearer "+bearerToken)
+                .header("Content-Type","application/json")
+                .filter(ResponseLoggingFilter.logResponseTo(log1))
+                .when()
+                .get("/task")
+                .then()
+                .log().all()
+                .extract().response();
 
     }
 
